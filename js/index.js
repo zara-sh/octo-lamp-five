@@ -44,6 +44,16 @@ window.addEventListener('DOMContentLoaded', () => {
       o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
       a: 1,
     },
+    {
+      q: 'What does TDD stand for?',
+      o: ['Test Driven Development', 'Task Driven Design', 'Technical Design Development', 'Test Deployment Development'],
+      a: 0, // Test Driven Development is the correct answer
+    },
+    {
+      q: 'In TDD, which step comes first?',
+      o: ['Write tests', 'Write code', 'Refactor', 'Run tests'],
+      a: 0, // Write tests is the correct answer
+    },
   ];
 
   // function to Display the quiz questions and answers from the object
@@ -76,15 +86,63 @@ window.addEventListener('DOMContentLoaded', () => {
 
         if (quizItem.a == i) {
           //change background color of li element here
+          liElement.style.backgroundColor = 'lightgreen';
         }
 
         if (radioElement.checked) {
           // code for task 1 goes here
+          if(quizItem.a == i){
+            score ++
+          }else{
+            liElement.style.backgroundColor = 'lightcoral'; 
+
+          }
+            
         }
       }
     });
+    document.querySelector('#score').textContent = `Your score is: ${score} out of ${quizArray.length}`;
   };
+
+  // Event listener for the Submit button
+document.querySelector('#btnSubmit').addEventListener('click', calculateScore);
+
+//  Reset the page by Reset btn
+document.getElementById("btnReset").addEventListener("click",()=>{
+  window.location.reload(); 
+})
+
+//set Timer
+
+let timer;
+let timeLeft = 60; // Initial time in seconds
+
+// Function to start the timer
+const startTimer = () => {
+  const timeDisplay = document.querySelector('#time');
+  
+  timer = setInterval(() => {
+    timeLeft--;
+    timeDisplay.textContent = timeLeft; // Update the timer display
+    
+    if (timeLeft <= 0) {
+      clearInterval(timer); // Stop the timer when it reaches 0
+      alert("Time is up!");
+      // Optionally, you can call a function to end the quiz here
+    }
+  }, 1000); // 1000ms = 1 second interval
+};
+
+// Add event listener to start the quiz and timer when the start button is clicked
+document.getElementById('startBtn').addEventListener('click', () => {
+  startTimer(); // Start the timer when the start button is clicked
+  // Optionally, you can also hide the start button or show the quiz questions here
+});
+
+
 
   // call the displayQuiz function
   displayQuiz();
 });
+
+
